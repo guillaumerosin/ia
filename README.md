@@ -7,3 +7,13 @@ Doc utilisé : https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java
 
 - RMQ : 
 Les actions sont définies dans Agent. En gros dans Pinky (qui hérite de Ghost, lui-même hérite de Agent),
+
+
+
+Minimax : une somme a somme nulle?
+Une valeur utilité par joueur qui applique chacun un max
+Chaque joueur maximisme leur utilité 
+
+ExpectedMax : une estimation probabiliste (grossomerdo la moyenne des utilités)
+
+MCTS : 

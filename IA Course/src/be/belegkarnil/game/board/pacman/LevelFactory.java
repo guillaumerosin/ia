@@ -66,7 +66,7 @@ public final class LevelFactory {
 	public static Game createSmallLevel(Behavior behavior){
 		Board board = new Board(SMALL_LEVEL);
 		Pacman pacman = new Pacman(behavior,1,1);
-		Ghost[] ghosts = {new Randy(board.getWidth()-2,board.getHeight()-2)};
+		Ghost[] ghosts = {new Clyde(board.getWidth()-2,board.getHeight()-2)};
 		return new Game(board,pacman,ghosts);
 	}
 	
@@ -87,18 +87,18 @@ public final class LevelFactory {
 	public static Game createMediumLevel(Behavior behavior){
 		Board board = new Board(MEDIUM_LEVEL);
 		Pacman pacman = new Pacman(behavior,1,2);
-		Ghost[] ghosts = {new Inky(board.getWidth()-2,board.getHeight()-2)};
+		Ghost[] ghosts = {new Pinky(board.getWidth()-2,board.getHeight()-2)};
 		return new Game(board,pacman,ghosts);
 	}
-	
+
 	public static Game createBigLevel(Behavior behavior){
 		// bleu à gauche, rouge à droite
 		// pcman en bas
 		Board board = new Board(BIG_LEVEL);
 		Pacman pacman = new Pacman(behavior,9,board.getHeight()-2);
 		Ghost[] ghosts = {
-				new Inky( 8,5),
-				new Blinky(11,5)
+				new Pinky( 8,5),
+				new Inky(11,5)
 		};
 		return new Game(board,pacman,ghosts);
 	}

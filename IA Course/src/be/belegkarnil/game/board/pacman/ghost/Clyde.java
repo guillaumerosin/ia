@@ -22,6 +22,11 @@ package be.belegkarnil.game.board.pacman.ghost;
 import be.belegkarnil.game.board.pacman.Ghost;
 
 import java.awt.Color;
+import java.util.Map;
+import java.util.Queue;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 public class Clyde extends Ghost {
 	public Clyde(final int initX,final int initY){
@@ -30,7 +35,52 @@ public class Clyde extends Ghost {
 	
 	@Override
 	protected Action action(final Node self, final Node pacman){
-		// TODO implements Breadth-First search
-		return null;
+		Queue<Node> frontiers = new LinkedList<Node>();
+		frontiers.offer(self);
+
+		Map<Node,Node> preds = new HashMap<Node,Node>();
+		preds.put(self, null);
+
+		while(!frontiers.isEmpty()){
+			Node current = frontiers.poll();
+
+			if(current.equals(pacman)){
+				List<Node> path = resolve(preds, pacman);
+				if(path.size() < 2) return null;
+				Node src = path.get(0);
+				Node dst = path.get(1);
+
+				for(Action action : Action.values()){
+					if(src.hasNeighbour(action) && src.getNeighbour(action).equals(dst)){
+						return action;
+					}
+				}
+				return null;
+			}
+
+			for(Action action : Action.values()){
+				if(current.hasNeighbour(action)){
+					Node neighbour = current.getNeighbour(action);
+					if(!preds.containsKey(neighbour)){
+						frontiers.offer(neighbour);
+						preds.put(neighbour, current);
+					}
+				}
+			}
+		}
+		return Action.values()[(int)(Math.random() * Action.values().length)];
+	}
+	private static List <Node> resolve(Map<Node,Node> preds, Node dst){
+		//TODO
+		LinkedList<Node> path = new LinkedList<Node>();
+		path.add(dst);
+
+		Node current = dst;
+
+		while(preds.get(current) != null){
+			current = preds.get(current);
+			path.addFirst(current);
+		}
+		return path;
 	}
 }

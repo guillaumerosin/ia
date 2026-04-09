@@ -22,15 +22,65 @@ package be.belegkarnil.game.board.pacman.ghost;
 import be.belegkarnil.game.board.pacman.Ghost;
 
 import java.awt.Color;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Set;
 
 public class Inky extends Ghost {
 	public Inky(final int initX,final int initY){
 		super(new Color(0,255,255),initX,initY);
 	}
-	
+
+	private int heuristic(Node node, Node pacman){
+		return Math.abs(node.row - pacman.row) + Math.abs(node.column - pacman.column);
+	}
+
 	@Override
 	protected Action action(final Node self, final Node pacman){
-		// TODO implements A*
-		return null;
+		PriorityQueue<Node> pq = new PriorityQueue<>((a, b) -> a.getCost() - b.getCost());
+		self.setCost(heuristic(self, pacman)); 
+		pq.offer(self);
+
+		Set<Node> visited = new HashSet<>();
+		Map<Node, Action> firstActions = new HashMap<>();
+		Map<Node, Integer> gCost = new HashMap<>(); 
+		gCost.put(self, 0);
+
+		while(!pq.isEmpty()){
+			Node current = pq.poll();
+
+			if(visited.contains(current)) continue;
+			visited.add(current);
+
+			if(current.equals(pacman)){
+				return firstActions.get(current);
+			}
+
+			int g = gCost.get(current);
+
+			for(Action action : Action.values()){
+				if(!current.hasNeighbour(action)) continue;
+				Node neighbour = current.getNeighbour(action);
+				if(visited.contains(neighbour)) continue;
+
+				int newG = g + 1;
+				if(newG < gCost.getOrDefault(neighbour, Integer.MAX_VALUE)){
+					gCost.put(neighbour, newG);
+					int f = newG + heuristic(neighbour, pacman); 
+					neighbour.setCost(f);
+
+				
+					if(current.equals(self)){
+						firstActions.put(neighbour, action);
+					} else {
+						firstActions.put(neighbour, firstActions.get(current));
+					}
+					pq.offer(neighbour);
+				}
+			}
+		}
+		return null; 
 	}
 }

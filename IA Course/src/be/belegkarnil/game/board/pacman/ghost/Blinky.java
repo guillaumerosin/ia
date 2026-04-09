@@ -42,7 +42,40 @@ public class Blinky extends Ghost{
 	
 	@Override
 	protected Action action(final Node self, final Node pacman){
-		// TODO implements uniform cost search from self to pacman
-		return null;
+		self.setCost(0);
+		PriorityQueue<Node> pq = new PriorityQueue<>(this);
+		pq.offer(self);
+
+		Set<Node> visited = new HashSet<>();
+		Map<Node, Action> firstActions = new HashMap<>(); 
+
+		while(!pq.isEmpty()){
+			Node current = pq.poll();
+
+			if(visited.contains(current)) continue;
+			visited.add(current);
+
+			if(current.equals(pacman)){
+				return firstActions.get(current);
+			}
+
+			for(Action action : Action.values()){
+				if(!current.hasNeighbour(action)) continue;
+				Node neighbour = current.getNeighbour(action);
+				if(visited.contains(neighbour)) continue;
+
+				int newCost = current.getCost() + 1;
+				if(newCost < neighbour.getCost()){
+					neighbour.setCost(newCost);
+					if(current.equals(self)){
+						firstActions.put(neighbour, action);
+					} else {
+						firstActions.put(neighbour, firstActions.get(current));
+					}
+					pq.offer(neighbour);
+				}
+			}
+		}
+		return null; 
 	}
 }
