@@ -23,7 +23,7 @@ import java.util.Arrays;
 
 public class Board {
 	private final Cell[][] data;
-	Board(Cell[][] level){
+	public Board(Cell[][] level){
 		this.data = new Cell[level.length][];
 		for(int i=0; i<level.length; i++)
 			this.data[i] = Arrays.copyOf(level[i],level[i].length);

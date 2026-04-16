@@ -155,8 +155,8 @@ public class MiniMaxPacman extends Agent implements GameListener{
 		for(int x=0; x<board.getWidth(); x++){
 			for(int y=0; y<board.getHeight(); y++){
 				switch(board.getCellAt(x,y)){
-					case Board.Cell.DOT:
-					case Board.Cell.POWER_PELLET: count++;
+					case DOT:
+					case POWER_PELLET: count++;
 				}
 			}
 		}

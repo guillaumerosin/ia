@@ -19,13 +19,14 @@
  */
 package be.belegkarnil.game.board.pacman;
 
+import be.belegkarnil.game.board.pacman.behavior.MarkovPacman;
 import be.belegkarnil.game.board.pacman.gui.Pacman;
 
 import java.awt.Window;
 
 public class BelegPacman {
 	public static void main(String[] args)throws Exception{
-		Window window = new Pacman();
+		Window window = new Pacman(new MarkovPacman());
 		window.pack();
 		window.setLocationRelativeTo(window.getParent());
 		window.setVisible(true);
